@@ -1,6 +1,11 @@
 import Resolver from '@forge/resolver';
 import { storage } from '@forge/api';
-import webhookConfig from "./webhookConfig.json";
+import { webTrigger } from "@forge/api";
+
+const WEBHOOK_EVENTS = [
+    "Repository: Updated",
+    "Pull request: Merged"
+];
 
 const resolver = new Resolver();
 
@@ -39,14 +44,14 @@ resolver.define('saveConfig', async (req) => {
     await storage.set(prefix + 'REPO_ORG_ADMIN', orgAdminEmail);
     await storage.set(prefix + 'REPO_SLACK_HOOK', slackWebhook);
 
-    const defaultEvents = webhookConfig.webhookDefaultEvents || [];
+    const webhookURL = await webTrigger.getUrl("sherlocksync-webtrigger-sync");
 
     return {
       success: true,
       message: "Configuration saved successfully!",
       webhookData: {
-        webhookUrl: webhookConfig.webhookUrl,
-        events: defaultEvents
+        webhookUrl: webhookURL,
+        events: WEBHOOK_EVENTS
       }
     };
   } catch (error) {

@@ -1,0 +1,52 @@
+modules:
+  bitbucket:repoSettingsMenuPage:
+    - key: sherlocksync
+      resource: main
+      resolver:
+        function: resolver
+      title: SherlockSync
+      render: native
+
+  webtrigger:
+    - key: sherlocksync-webtrigger-sync
+      function: sync
+      response:
+        type: dynamic
+
+  consumer:
+    - key: queue-consumer
+      # Name of the queue for which this consumer will be invoked
+      queue: doc-generation-queue
+      # Function to be called with payload
+      function: consumer-function
+
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: sync
+      handler: index.runSync
+    - key: consumer-function
+      handler: index.process
+      timeoutSeconds: 900
+
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/159a4a0a-20a0-412c-b6e5-5a610fdaa438
+
+permissions:
+  scopes:
+    - storage:app
+    - read:repository:bitbucket
+  external:
+    fetch:
+      backend:
+        - address: https://*.atlassian.net
+        - address: https://*.execute-api.us-east-1.amazonaws.com
+        - address: https://hooks.slack.com

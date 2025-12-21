@@ -1,0 +1,8 @@
+{
+  "webhookDefaultEvents": [
+    "Repository: Push",
+    "Repository: Updated",
+    "Pull request: Merged"
+  ],
+  "webhookUrl": "https://6b5d62da-c4b8-466d-9b42-c3eb0cb8ddb4.hello.atlassian-dev.net/x1/gohfakCuSMouOI5y8G8TYF8lyYc"
+}

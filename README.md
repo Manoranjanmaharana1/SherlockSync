@@ -1,4 +1,6 @@
 # 📘 Project SherlockSync
+![](https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/004/110/134/datas/original.png)
+
 This repository contains:
 
 1. **Forge App for Bitbucket** – adds custom UI on Bitbucket Repository Settings Menu Page.
